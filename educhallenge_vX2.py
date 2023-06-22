@@ -119,11 +119,11 @@ def video_in_bilder_zerlegen(dateiname_realvideo):
 
     # Ausgabe der einzelnen Bilder des Realvideos als einzelne jpg-Dateien | speichern im gerade erstellten Unterordner:
     success,image = vidcap.read()
-    print(success)
+    #print(success)
     count = 0
     while success:
       cv2.imwrite("Ausgangsbilder" + "/frame" + str(format(count, '02d')) + ".jpg", image)     # save frame as JPEG file 
-      print("Bild " + str(format(count, '02d')) + ".jpg" + " gespeichert.")
+      #print("Bild " + str(format(count, '02d')) + ".jpg" + " gespeichert.")
       success,image = vidcap.read()
       count += 1
     N_Bilder = count # +1 (glaube ich falsch)
