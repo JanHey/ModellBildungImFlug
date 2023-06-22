@@ -9,7 +9,7 @@ Version: X2 (Stand: 13.06.2023 = zweite Version für den dritten Zyklus)
 
 Diese Bibliothek enthält Funktionen, die in der Simulation der EduChallenge benötigt werden und selbst geschrieben wurden, die aber für Schüler:innen nicht sichtbar sein sollen, um die Oberfläche der Simulation übersichtlich zu halten. 
 
-Neu in X2: es wird ein Download-Button angezeigt, über den man die erzeugten Dateien herunterladen kann. 
+Neu in X2: es wird ein Download-Button angezeigt, über den man die erzeugten Dateien herunterladen kann. Außerdem wird ein Upload-Button angezeigt, um das Wurfvideo in den aktuellen Ordner hochzuladen. 
 """
 
 # Bibliotheken
@@ -28,6 +28,7 @@ from datetime import datetime
 from ipywidgets import HTML
 from IPython.display import display
 import base64
+import ipywidgets as widgets
 
 ##### ##### ##### ##### ##### ##### ##### ##### ##### ##### ##### ##### #####
 #####                                                                   #####
@@ -58,7 +59,31 @@ def DownloadButton(filename):
 
     html_button = html_buttons.format(payload=payload,filename=filename)
     display(HTML(html_button))
+    
+##### Uploadbutton #####
+def Button_um_Video_hochzuladen():
+    upload_button = widgets.FileUpload(description='Video Upload')
+    display(upload_button)
 
+    uploaded_filename = None  # Variable to store the uploaded filename
+
+    def handle_upload_button_change(change):
+        nonlocal uploaded_filename
+        uploaded_file = upload_button.value
+        if uploaded_file:
+            file_name = list(uploaded_file.keys())[0]
+            file_contents = uploaded_file[file_name]['content']
+            # Save the uploaded file to the notebook's directory
+            file_path = os.path.join(os.getcwd(), file_name)
+            with open(file_path, 'wb') as file:
+                file.write(file_contents)
+            uploaded_filename = file_name
+            print(f"Uploaded file '{file_name}' saved to: {file_path}")
+            global dateiname_Wurfvideo
+            dateiname_Wurfvideo = uploaded_filename
+        
+
+    upload_button.observe(handle_upload_button_change, names='value')
 
 ##### Zelle Vorbereitung #####
 
