@@ -20,6 +20,12 @@ class VideoUploads:
                         f.write(file_contents)
                     filenames.append(file_name)
             self.filenames = filenames.copy()
+
+            # Dateiname des hochgeladenen Videos in Datei schreiben, damit der Dateiname später ausgelesen werden kann.
+            file = open('DateinameVideo.txt','w')
+            file.write(file_name)
+            file.close()
+       
         upload_button.observe(handle_upload_button_change, names='value')
         
     def get_filenames(self):
